@@ -1,0 +1,7 @@
+hardhat/node_modules
+hardhat/atrifacts
+hardhat/cache
+# hardhat/contracts.old
+hardhat/typechain-types
+hardhat/.env
+client/node_modules
