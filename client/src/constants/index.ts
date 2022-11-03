@@ -1,4 +1,5 @@
-export const contractAddress: string = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
+export const contractSymbol = "MATIC";
+export const contractAddress: string = "0x4AAbF5854dAdBAC67FFf1E2Aa2af948e04d8a551";
 export const contractAbi = [
   {
     anonymous: false,
@@ -158,7 +159,7 @@ export const contractAbi = [
             type: "uint256",
           },
         ],
-        internalType: "struct DNotesV2.File[]",
+        internalType: "struct DNotes.File[]",
         name: "_files",
         type: "tuple[]",
       },
@@ -219,7 +220,7 @@ export const contractAbi = [
             type: "uint256",
           },
         ],
-        internalType: "struct DNotesV2.File[]",
+        internalType: "struct DNotes.File[]",
         name: "_files",
         type: "tuple[]",
       },
@@ -345,7 +346,7 @@ export const contractAbi = [
             type: "uint256",
           },
         ],
-        internalType: "struct DNotesV2.File[]",
+        internalType: "struct DNotes.File[]",
         name: "",
         type: "tuple[]",
       },
@@ -385,7 +386,7 @@ export const contractAbi = [
             type: "uint256",
           },
         ],
-        internalType: "struct DNotesV2.Note[]",
+        internalType: "struct DNotes.Note[]",
         name: "",
         type: "tuple[]",
       },
@@ -425,7 +426,7 @@ export const contractAbi = [
             type: "uint256",
           },
         ],
-        internalType: "struct DNotesV2.User",
+        internalType: "struct DNotes.User",
         name: "",
         type: "tuple",
       },

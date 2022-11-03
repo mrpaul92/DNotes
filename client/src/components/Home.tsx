@@ -6,6 +6,7 @@ import { Add, EventNote, Fingerprint, Delete as DeleteIcon, Folder as FolderIcon
 import { ethers, utils } from "ethers";
 import { DNotesApi } from "../api";
 import { userActions } from "../store/slices/userSlice";
+import { contractSymbol } from "../constants";
 
 const getEthereumObject = () => (window as any).ethereum;
 const ethereum = getEthereumObject();
@@ -125,7 +126,9 @@ const Home = () => {
             <Box sx={{ flexGrow: 0 }}>
               <div style={{ color: "white", fontSize: "14px", textAlign: "right", fontWeight: "bold" }}>{name}</div>
               <div style={{ color: "white", fontSize: "10px" }}>{key}</div>
-              <div style={{ color: "white", fontSize: "10px", textAlign: "right", fontWeight: "bold" }}>ETH {Number(balance).toFixed(4)}</div>
+              <div style={{ color: "white", fontSize: "10px", textAlign: "right", fontWeight: "bold" }}>
+                {contractSymbol} {Number(balance).toFixed(4)}
+              </div>
             </Box>
           </Toolbar>
         </Container>
