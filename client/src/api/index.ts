@@ -11,16 +11,32 @@ export const DNotesApi = {
     let data = await contract.getUser();
     return data;
   },
-  createUser: async (name: string): Promise<boolean> => {
-    let data = await contract.createUser(name);
-    return data;
+  createUser: async (name: string) => {
+    let txn = await contract.createUser(name);
+    await txn.wait();
+    return txn;
   },
   addNote: async (title: string, body: string, files: File[]) => {
-    let data = await contract.addNote(title, body, files);
-    return data;
+    let txn = await contract.addNote(title, body, files);
+    await txn.wait();
+    return txn;
+  },
+  updateNote: async (id: number, title: string, body: string) => {
+    let txn = await contract.updateNote(id, title, body);
+    await txn.wait();
+    return txn;
+  },
+  deleteNote: async (id: number) => {
+    let txn = await contract.deleteNote(id);
+    await txn.wait();
+    return txn;
   },
   getNotes: async (): Promise<Note[]> => {
     let data = await contract.getNotes();
+    return data;
+  },
+  getNoteFiles: async (id: number): Promise<File[]> => {
+    let data = await contract.getNoteFiles(id);
     return data;
   },
 };

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Note } from "../../interfaces";
 
 const userSlice = createSlice({
   name: "user",
@@ -15,7 +16,7 @@ const userSlice = createSlice({
       state.isMetaMaskAvailable = true;
     },
     setNotes: (state, action) => {
-      state.notes = action.payload.notes;
+      state.notes = action.payload.notes.filter((item: Note) => item.status === true);
     },
   },
 });

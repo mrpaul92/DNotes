@@ -1,3 +1,4 @@
+import { Alert, Button, Container, TextField } from "@mui/material";
 import React, { useRef } from "react";
 import { useSelector } from "react-redux";
 import { DNotesApi } from "../api";
@@ -17,12 +18,18 @@ const Signup = () => {
   };
 
   return (
-    <div>
-      <input ref={inputRef} />
-      <button type="button" onClick={addUser}>
-        SignUp
-      </button>
-    </div>
+    <Container>
+      <Alert style={{ display: "flex", justifyContent: "center" }} variant="standard" color="info">
+        Just enter your name and proceed!
+      </Alert>
+      <br />
+      <TextField inputRef={inputRef} required label="Enter Your Name" style={{ width: "100%" }} />
+      <br />
+      <br />
+      <Button variant="outlined" onClick={addUser}>
+        Get Started
+      </Button>
+    </Container>
   );
 };
 

@@ -4,6 +4,8 @@ import { useAppDispatch } from "../store";
 import { userActions } from "../store/slices/userSlice";
 import { User } from "../interfaces";
 import { DNotesApi } from "../api";
+import { Alert, Button, Container } from "@mui/material";
+import { Fingerprint } from "@mui/icons-material";
 
 const getEthereumObject = () => (window as any).ethereum;
 const ethereum = getEthereumObject();
@@ -23,15 +25,21 @@ const Block = () => {
 
   const getUser = async () => {
     let data: User = await DNotesApi.getUser();
-    if (data.name != "") {
+    if (data.name !== "") {
       dispatch(userActions.register({ name: data.name, key: data.key }));
     }
   };
   return (
-    <div>
-      <p>Please install Metamask & Connect!</p>
-      <button onClick={connectHandler}>Connect Metamask</button>
-    </div>
+    <Container>
+      <Alert style={{ display: "flex", justifyContent: "center" }} variant="standard" color="info">
+        Please connect with MetaMask!
+      </Alert>
+      <div style={{ margin: "20px auto", textAlign: "center" }}>
+        <Button variant="outlined" startIcon={<Fingerprint />} onClick={connectHandler}>
+          Connect Metamask
+        </Button>
+      </div>
+    </Container>
   );
 };
 
