@@ -1,9 +1,17 @@
-export const contractAddress: string = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+export const contractAddress: string = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
 export const contractAbi = [
   {
-    inputs: [],
-    stateMutability: "nonpayable",
-    type: "constructor",
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint8",
+        name: "version",
+        type: "uint8",
+      },
+    ],
+    name: "Initialized",
+    type: "event",
   },
   {
     anonymous: false,
@@ -150,7 +158,7 @@ export const contractAbi = [
             type: "uint256",
           },
         ],
-        internalType: "struct DNotes.File[]",
+        internalType: "struct DNotesV2.File[]",
         name: "_files",
         type: "tuple[]",
       },
@@ -211,7 +219,7 @@ export const contractAbi = [
             type: "uint256",
           },
         ],
-        internalType: "struct DNotes.File[]",
+        internalType: "struct DNotesV2.File[]",
         name: "_files",
         type: "tuple[]",
       },
@@ -337,7 +345,7 @@ export const contractAbi = [
             type: "uint256",
           },
         ],
-        internalType: "struct DNotes.File[]",
+        internalType: "struct DNotesV2.File[]",
         name: "",
         type: "tuple[]",
       },
@@ -377,7 +385,7 @@ export const contractAbi = [
             type: "uint256",
           },
         ],
-        internalType: "struct DNotes.Note[]",
+        internalType: "struct DNotesV2.Note[]",
         name: "",
         type: "tuple[]",
       },
@@ -417,12 +425,19 @@ export const contractAbi = [
             type: "uint256",
           },
         ],
-        internalType: "struct DNotes.User",
+        internalType: "struct DNotesV2.User",
         name: "",
         type: "tuple",
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "initialize",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {

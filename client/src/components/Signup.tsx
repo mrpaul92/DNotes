@@ -1,9 +1,10 @@
-import { Alert, Button, Container, TextField } from "@mui/material";
+import { Alert, Box, Button, Container, TextField } from "@mui/material";
 import React, { useRef } from "react";
 import { useSelector } from "react-redux";
 import { DNotesApi } from "../api";
 import { RootState, useAppDispatch } from "../store";
 import { userActions } from "../store/slices/userSlice";
+import AppbarNormal from "./Layout/AppbarNormal";
 
 const Signup = () => {
   const dispatch = useAppDispatch();
@@ -18,18 +19,22 @@ const Signup = () => {
   };
 
   return (
-    <Container>
-      <Alert style={{ display: "flex", justifyContent: "center" }} variant="standard" color="info">
-        Just enter your name and proceed!
-      </Alert>
-      <br />
-      <TextField inputRef={inputRef} required label="Enter Your Name" style={{ width: "100%" }} />
-      <br />
-      <br />
-      <Button variant="outlined" onClick={addUser}>
-        Get Started
-      </Button>
-    </Container>
+    <>
+      <AppbarNormal />
+      <Container>
+        <Box sx={{ m: 1 }} />
+        <Alert style={{ display: "flex", justifyContent: "center" }} variant="standard" color="info">
+          Enter your name below to proceed with one time signup process.
+        </Alert>
+        <br />
+        <TextField inputRef={inputRef} required label="Enter Your Name" style={{ width: "100%" }} />
+        <br />
+        <br />
+        <Button variant="outlined" onClick={addUser}>
+          Get Started
+        </Button>
+      </Container>
+    </>
   );
 };
 
