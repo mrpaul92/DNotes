@@ -3,7 +3,7 @@ pragma solidity ^0.8.17;
 import "hardhat/console.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
-contract DNotes is Initializable {
+contract DNotesV2 is Initializable {
 
     struct Note {
         uint id;
