@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../store";
 import { AppBar, Avatar, Box, Button, Container, IconButton, List, ListItem, ListItemAvatar, ListItemText, TextField, Toolbar, Typography } from "@mui/material";
-import { Add, EventNote, Fingerprint, Delete as DeleteIcon, Folder as FolderIcon, StickyNote2 } from "@mui/icons-material";
+import { Add, EventNote, Delete as DeleteIcon, StickyNote2 } from "@mui/icons-material";
 import { ethers, utils } from "ethers";
 import { DNotesApi } from "../api";
 import { userActions } from "../store/slices/userSlice";
@@ -25,6 +25,7 @@ const Home = () => {
   const [formError, setFormError] = useState(false);
 
   const [noteUpdateData, setNoteUpdateData] = useState({ data: { id: 0, title: "", body: "" } });
+  const [disabled, setDisabled] = useState(false);
 
   const name = useSelector((state: RootState) => state.user.name);
   const key = useSelector((state: RootState) => state.user.key);
@@ -47,26 +48,32 @@ const Home = () => {
   }, [useEffectTrigger]);
 
   const handleAddNote = async () => {
+    setDisabled(true);
     if (titleRef.current?.value && bodyRef.current?.value) {
       await DNotesApi.addNote(titleRef.current?.value, bodyRef.current?.value, []);
       titleRef.current.value = "";
       bodyRef.current.value = "";
       setView("list");
       setUseEffectTrigger(!useEffectTrigger);
+      setDisabled(false);
     } else {
       setFormError(true);
+      setDisabled(false);
     }
   };
 
   const handleUpdateNote = async () => {
+    setDisabled(true);
     if (updateTitleRef.current?.value && updateBodyRef.current?.value) {
       await DNotesApi.updateNote(noteUpdateData.data.id, updateTitleRef.current?.value, updateBodyRef.current?.value);
       updateTitleRef.current.value = "";
       updateBodyRef.current.value = "";
       setView("list");
       setUseEffectTrigger(!useEffectTrigger);
+      setDisabled(false);
     } else {
       setFormError(true);
+      setDisabled(false);
     }
   };
 
@@ -187,8 +194,9 @@ const Home = () => {
               <Box sx={{ m: 2 }}>
                 <TextField error={formError} id="outlined-error" multiline rows={4} inputRef={bodyRef} required label="Enter Note Content" style={{ width: "100%" }} />
               </Box>
+
               <Box sx={{ m: 3 }}>
-                <Button variant="outlined" onClick={handleAddNote}>
+                <Button disabled={disabled} variant="outlined" onClick={handleAddNote}>
                   Add Note
                 </Button>
               </Box>
@@ -216,7 +224,7 @@ const Home = () => {
                 />
               </Box>
               <Box sx={{ m: 3 }}>
-                <Button variant="outlined" onClick={handleUpdateNote}>
+                <Button disabled={disabled} variant="outlined" onClick={handleUpdateNote}>
                   Update Note
                 </Button>
               </Box>

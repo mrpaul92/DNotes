@@ -1,5 +1,5 @@
 export interface User {
-  id: number;
+  id?: number;
   name: string;
   key: string;
   status: boolean;
@@ -7,16 +7,15 @@ export interface User {
 }
 
 export interface Note {
-  id: number;
+  id?: number;
   title: string;
   body: string;
   status: boolean;
   timestamp: number;
-  files: File[];
 }
 
 export interface File {
-  id: number;
+  id?: number;
   name: string;
   hash: string;
   size: number;
