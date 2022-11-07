@@ -1,9 +1,9 @@
 import { ethers, upgrades } from "hardhat";
 
-const V1_ADDRESS = "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0";
+const PREVIOUS_ADDRESS = "0x4AAbF5854dAdBAC67FFf1E2Aa2af948e04d8a551";
 async function main() {
   const DNotesFactoryV2 = await ethers.getContractFactory("DNotesV2");
-  const DNotesV2 = await upgrades.upgradeProxy(V1_ADDRESS, DNotesFactoryV2);
+  const DNotesV2 = await upgrades.upgradeProxy(PREVIOUS_ADDRESS, DNotesFactoryV2);
   console.log("DNotes Upgraded to DNotesV2");
   console.log("DNotesV2 deployed to:", DNotesV2.address);
 }

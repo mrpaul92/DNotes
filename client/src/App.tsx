@@ -45,9 +45,10 @@ const App = () => {
 
   const getUser = async () => {
     let data: User = await DNotesApi.getUser();
+    console.log(data);
 
     if (data.name !== "") {
-      dispatch(userActions.register({ name: data.name, key: data.key }));
+      dispatch(userActions.register({ name: data.name, key: data.key, role: data.role }));
     }
   };
 

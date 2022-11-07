@@ -1,7 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../store";
-import { AppBar, Avatar, Box, Button, Container, IconButton, List, ListItem, ListItemAvatar, ListItemText, TextField, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  Container,
+  IconButton,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  TextField,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import { Add, EventNote, Delete as DeleteIcon, StickyNote2 } from "@mui/icons-material";
 import { ethers, utils } from "ethers";
 import { DNotesApi } from "../api";
@@ -29,6 +43,7 @@ const Home = () => {
 
   const name = useSelector((state: RootState) => state.user.name);
   const key = useSelector((state: RootState) => state.user.key);
+  const role = useSelector((state: RootState) => state.user.role);
   const notes = useSelector((state: RootState) => state.user.notes);
 
   useEffect(() => {
@@ -131,7 +146,9 @@ const Home = () => {
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
 
             <Box sx={{ flexGrow: 0 }}>
-              <div style={{ color: "white", fontSize: "14px", textAlign: "right", fontWeight: "bold" }}>{name}</div>
+              <div style={{ color: "white", fontSize: "14px", textAlign: "right", fontWeight: "bold" }}>
+                {name} [{role}]
+              </div>
               <div style={{ color: "white", fontSize: "10px" }}>{key}</div>
               <div style={{ color: "white", fontSize: "10px", textAlign: "right", fontWeight: "bold" }}>
                 {contractSymbol} {Number(balance).toFixed(4)}
@@ -189,10 +206,26 @@ const Home = () => {
           <>
             <div style={{ margin: "20px auto", textAlign: "center" }}>
               <Box sx={{ m: 2 }}>
-                <TextField error={formError} id="outlined-error" inputRef={titleRef} required label="Enter Title" style={{ width: "100%" }} />
+                <TextField
+                  error={formError}
+                  id="outlined-error"
+                  inputRef={titleRef}
+                  required
+                  label="Enter Title"
+                  style={{ width: "100%" }}
+                />
               </Box>
               <Box sx={{ m: 2 }}>
-                <TextField error={formError} id="outlined-error" multiline rows={4} inputRef={bodyRef} required label="Enter Note Content" style={{ width: "100%" }} />
+                <TextField
+                  error={formError}
+                  id="outlined-error"
+                  multiline
+                  rows={4}
+                  inputRef={bodyRef}
+                  required
+                  label="Enter Note Content"
+                  style={{ width: "100%" }}
+                />
               </Box>
 
               <Box sx={{ m: 3 }}>
@@ -208,7 +241,15 @@ const Home = () => {
           <>
             <div style={{ margin: "20px auto", textAlign: "center" }}>
               <Box sx={{ m: 2 }}>
-                <TextField error={formError} id="outlined-error" inputRef={updateTitleRef} required label="Enter Title" style={{ width: "100%" }} defaultValue={noteUpdateData.data.title} />
+                <TextField
+                  error={formError}
+                  id="outlined-error"
+                  inputRef={updateTitleRef}
+                  required
+                  label="Enter Title"
+                  style={{ width: "100%" }}
+                  defaultValue={noteUpdateData.data.title}
+                />
               </Box>
               <Box sx={{ m: 2 }}>
                 <TextField

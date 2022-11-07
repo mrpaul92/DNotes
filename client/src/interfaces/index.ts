@@ -4,6 +4,7 @@ export interface User {
   key: string;
   status: boolean;
   timestamp: number;
+  role: string;
 }
 
 export interface Note {

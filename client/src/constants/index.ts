@@ -1,5 +1,5 @@
 export const contractSymbol = "MATIC";
-export const contractAddress: string = "0x4AAbF5854dAdBAC67FFf1E2Aa2af948e04d8a551";
+export const contractAddress: string = "0xfFd18A9b85582688ED053D1215927d7FFc3a878a";
 export const contractAbi = [
   {
     anonymous: false,
@@ -18,7 +18,7 @@ export const contractAbi = [
     anonymous: false,
     inputs: [
       {
-        indexed: false,
+        indexed: true,
         internalType: "uint256",
         name: "_noteId",
         type: "uint256",
@@ -43,7 +43,7 @@ export const contractAbi = [
     anonymous: false,
     inputs: [
       {
-        indexed: false,
+        indexed: true,
         internalType: "uint256",
         name: "_noteId",
         type: "uint256",
@@ -56,7 +56,7 @@ export const contractAbi = [
     anonymous: false,
     inputs: [
       {
-        indexed: false,
+        indexed: true,
         internalType: "uint256",
         name: "_noteId",
         type: "uint256",
@@ -69,7 +69,7 @@ export const contractAbi = [
     anonymous: false,
     inputs: [
       {
-        indexed: false,
+        indexed: true,
         internalType: "uint256",
         name: "_noteId",
         type: "uint256",
@@ -94,7 +94,7 @@ export const contractAbi = [
     anonymous: false,
     inputs: [
       {
-        indexed: false,
+        indexed: true,
         internalType: "uint256",
         name: "_userId",
         type: "uint256",
@@ -414,6 +414,11 @@ export const contractAbi = [
             internalType: "address",
             name: "key",
             type: "address",
+          },
+          {
+            internalType: "string",
+            name: "role",
+            type: "string",
           },
           {
             internalType: "bool",

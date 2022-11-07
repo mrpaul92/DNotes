@@ -37,7 +37,7 @@ const Block = () => {
   const getUser = async () => {
     let data: User = await DNotesApi.getUser();
     if (data.name !== "") {
-      dispatch(userActions.register({ name: data.name, key: data.key }));
+      dispatch(userActions.register({ name: data.name, key: data.key, role: data.role }));
     }
   };
   return (
@@ -46,13 +46,16 @@ const Block = () => {
       <Container>
         <Box sx={{ m: 1 }} />
         <Alert style={{ display: "flex", justifyContent: "center" }} variant="standard" color="info">
-          DNotes is a decentralised platform to store your personal notes into blockchain. Install the The Metamask Google Chrome extension and create/import your ethereum wallet to get started.
+          DNotes is a decentralised platform to store your personal notes into blockchain. Install the The Metamask
+          Google Chrome extension and create/import your ethereum wallet to get started.
         </Alert>
         <div style={{ margin: "20px auto", textAlign: "center" }}>
           <Button variant="outlined" startIcon={<Fingerprint />} onClick={connectHandler}>
             Connect Metamask
           </Button>
-          {isMetaMaskAvailable === false && <Typography color="primary">MetaMask still not found! Refresh the page</Typography>}
+          {isMetaMaskAvailable === false && (
+            <Typography color="primary">MetaMask still not found! Refresh the page</Typography>
+          )}
         </div>
       </Container>
     </>
