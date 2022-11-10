@@ -20,7 +20,18 @@ import { Add, EventNote, Delete as DeleteIcon, StickyNote2 } from "@mui/icons-ma
 import { ethers, utils } from "ethers";
 import { DNotesApi } from "../api";
 import { userActions } from "../store/slices/userSlice";
-import { contractSymbol } from "../constants";
+import { contractSymbol, infuraApiKey, infuraProjectId } from "../constants";
+
+import { Buffer } from "buffer";
+
+import { create as ipfsClient } from "ipfs-http-client";
+const infuraAuth = "basic " + Buffer.from(infuraProjectId + ":" + infuraApiKey).toString("base64");
+const ipfs = ipfsClient({
+  host: "ipfs.infura.io",
+  port: 5001,
+  protocol: "https",
+  headers: { Authorization: infuraAuth },
+});
 
 const getEthereumObject = () => (window as any).ethereum;
 const ethereum = getEthereumObject();
@@ -40,6 +51,8 @@ const Home = () => {
 
   const [noteUpdateData, setNoteUpdateData] = useState({ data: { id: 0, title: "", body: "" } });
   const [disabled, setDisabled] = useState(false);
+
+  const [files, setFiles] = useState<{ name: string; size: number; type: string; buffer: Uint8Array }[]>([]);
 
   const name = useSelector((state: RootState) => state.user.name);
   const key = useSelector((state: RootState) => state.user.key);
@@ -66,6 +79,30 @@ const Home = () => {
     setDisabled(true);
     if (titleRef.current?.value && bodyRef.current?.value) {
       await DNotesApi.addNote(titleRef.current?.value, bodyRef.current?.value, []);
+
+      // get the last note id from contract
+      let lastNoteId = await DNotesApi.getLastNoteId();
+      lastNoteId = Number(lastNoteId);
+
+      // upload files into ipfs
+      const uploadedFiles = [];
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const { path, size } = await ipfs.add(file.buffer);
+        uploadedFiles.push({
+          name: file.name,
+          ipfsHash: path,
+          size,
+          mime: file.type,
+          status: true,
+          timestamp: Date.now(),
+        });
+      }
+      // upload files into the contract
+      if (uploadedFiles.length > 0) {
+        await DNotesApi.addNoteFiles(lastNoteId, uploadedFiles);
+      }
+
       titleRef.current.value = "";
       bodyRef.current.value = "";
       setView("list");
@@ -118,6 +155,26 @@ const Home = () => {
       };
     });
     dispatch(userActions.setNotes({ notes: formattedNotes }));
+  };
+
+  const captureFile = (e: any) => {
+    e.preventDefault();
+    const tempFiles = e.target.files;
+    const preparedFiles: { name: string; size: number; type: string; buffer: Uint8Array }[] = [];
+    for (let i = 0; i < tempFiles.length; i++) {
+      const reader = new FileReader();
+      const file = tempFiles[i];
+      reader.readAsArrayBuffer(file);
+      reader.onloadend = () => {
+        const bufferData = Buffer.from(reader.result as any);
+        preparedFiles.push({ name: file.name, size: file.size, type: file.type, buffer: bufferData });
+      };
+    }
+    setTimeout(async () => {
+      if (preparedFiles.length > 0) {
+        setFiles(preparedFiles);
+      }
+    }, 1000);
   };
 
   return (
@@ -226,6 +283,10 @@ const Home = () => {
                   label="Enter Note Content"
                   style={{ width: "100%" }}
                 />
+              </Box>
+
+              <Box sx={{ m: 2 }}>
+                <input type="file" accept="image/*" multiple onChange={captureFile} />
               </Box>
 
               <Box sx={{ m: 3 }}>

@@ -1,5 +1,5 @@
 export const contractSymbol = "MATIC";
-export const contractAddress: string = "0xfFd18A9b85582688ED053D1215927d7FFc3a878a";
+export const contractAddress: string = "0x680C268722C0823854CD46439bC79a4576FD3942";
 export const contractAbi = [
   {
     anonymous: false,
@@ -135,7 +135,7 @@ export const contractAbi = [
           },
           {
             internalType: "string",
-            name: "hash",
+            name: "ipfsHash",
             type: "string",
           },
           {
@@ -196,7 +196,7 @@ export const contractAbi = [
           },
           {
             internalType: "string",
-            name: "hash",
+            name: "ipfsHash",
             type: "string",
           },
           {
@@ -322,7 +322,7 @@ export const contractAbi = [
           },
           {
             internalType: "string",
-            name: "hash",
+            name: "ipfsHash",
             type: "string",
           },
           {
@@ -447,6 +447,58 @@ export const contractAbi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "lastFileId",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "lastNoteId",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "lastUserId",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "uint256",
@@ -476,3 +528,5 @@ export const contractAbi = [
     type: "function",
   },
 ];
+export const infuraProjectId = "2HLPj3Q1OjUmorQimK8e6bcYEAZ";
+export const infuraApiKey = "7d69abb8f0d3e1bd8625c70a5a224755";

@@ -14,7 +14,7 @@ contract DNotes is Initializable {
     struct File {
         uint id;
         string name;
-        string hash;
+        string ipfsHash;
         uint size;
         string mime;
         bool status;
@@ -34,15 +34,15 @@ contract DNotes is Initializable {
     mapping(uint => File[]) private noteFiles;
 
     bool private initialized;
-    uint private lastUserId;
-    uint private lastNoteId;
-    uint private lastFileId;
-    address private admin;
+    uint public lastUserId;
+    uint public lastNoteId;
+    uint public lastFileId;
+    address public owner;
 
     // we can't use constructor in case of upgradable contract
     function initialize() external initializer {
-        admin = msg.sender;
-        console.log("DNotes contract Deployed by %s", admin);
+        owner = msg.sender;
+        console.log("DNotes contract Deployed by %s", owner);
     }
 
     event userCreated(uint indexed _userId, string _name);
@@ -64,7 +64,7 @@ contract DNotes is Initializable {
         if (_files.length > 0) {
             for (uint i = 0; i < _files.length; i++) {
                 require(bytes(_files[i].name).length > 0);
-                require(bytes(_files[i].hash).length > 0);
+                require(bytes(_files[i].ipfsHash).length > 0);
                 require(_files[i].size > 0);
                 require(bytes(_files[i].mime).length > 0);
             }
@@ -89,7 +89,7 @@ contract DNotes is Initializable {
         if (_files.length > 0) {
             for (uint i = 0; i < _files.length; i++) {
                 require(bytes(_files[i].name).length > 0);
-                require(bytes(_files[i].hash).length > 0);
+                require(bytes(_files[i].ipfsHash).length > 0);
                 require(_files[i].size > 0);
                 require(bytes(_files[i].mime).length > 0);
             }
@@ -112,7 +112,7 @@ contract DNotes is Initializable {
         createUserValidator(_name)
         returns (bool)
     {
-        string memory role = msg.sender == admin ? "Admin" : "User";
+        string memory role = msg.sender == owner ? "Admin" : "User";
         lastUserId++;
         users[msg.sender] = User(
             lastUserId,
@@ -146,7 +146,7 @@ contract DNotes is Initializable {
                 File(
                     lastFileId,
                     _files[i].name,
-                    _files[i].hash,
+                    _files[i].ipfsHash,
                     _files[i].size,
                     _files[i].mime,
                     true,
@@ -217,7 +217,7 @@ contract DNotes is Initializable {
                 File(
                     lastFileId,
                     _files[i].name,
-                    _files[i].hash,
+                    _files[i].ipfsHash,
                     _files[i].size,
                     _files[i].mime,
                     true,

@@ -72,7 +72,6 @@ export const DNotesApi = {
     let data = await contract.getNoteFiles(id);
     return data;
   },
-
   addNoteFiles: async (id: number, files: File[]) => {
     const ethereum = getEthereumObject();
     const provider = new ethers.providers.Web3Provider(ethereum);
@@ -82,5 +81,14 @@ export const DNotesApi = {
     let txn = await contract.addNoteFiles(id, files);
     await txn.wait();
     return txn;
+  },
+  getLastNoteId: async () => {
+    const ethereum = getEthereumObject();
+    const provider = new ethers.providers.Web3Provider(ethereum);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(contractAddress, contractAbi, signer);
+
+    let data = await contract.lastNoteId();
+    return data;
   },
 };
