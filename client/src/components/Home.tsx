@@ -78,10 +78,7 @@ const Home = () => {
   const handleAddNote = async () => {
     setDisabled(true);
     if (titleRef.current?.value && bodyRef.current?.value) {
-      await DNotesApi.addNote(titleRef.current?.value, bodyRef.current?.value, []);
-
-      // get the last note id & last file id from contract
-      const lastNoteId = Number(await DNotesApi.getLastNoteId());
+      // get the last last file id from contract
       const lastFileId = Number(await DNotesApi.getLastFileId());
 
       // upload files into ipfs
@@ -99,10 +96,8 @@ const Home = () => {
           timestamp: Date.now(),
         });
       }
-      // upload files into the contract
-      if (uploadedFiles.length > 0) {
-        await DNotesApi.addNoteFiles(lastNoteId, uploadedFiles);
-      }
+
+      await DNotesApi.addNote(titleRef.current?.value, bodyRef.current?.value, uploadedFiles);
 
       titleRef.current.value = "";
       bodyRef.current.value = "";
