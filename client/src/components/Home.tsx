@@ -80,9 +80,9 @@ const Home = () => {
     if (titleRef.current?.value && bodyRef.current?.value) {
       await DNotesApi.addNote(titleRef.current?.value, bodyRef.current?.value, []);
 
-      // get the last note id from contract
-      let lastNoteId = await DNotesApi.getLastNoteId();
-      lastNoteId = Number(lastNoteId);
+      // get the last note id & last file id from contract
+      const lastNoteId = Number(await DNotesApi.getLastNoteId());
+      const lastFileId = Number(await DNotesApi.getLastFileId());
 
       // upload files into ipfs
       const uploadedFiles = [];
@@ -90,6 +90,7 @@ const Home = () => {
         const file = files[i];
         const { path, size } = await ipfs.add(file.buffer);
         uploadedFiles.push({
+          id: lastFileId + i + 1,
           name: file.name,
           ipfsHash: path,
           size,
@@ -139,6 +140,8 @@ const Home = () => {
   };
 
   const handleOpenUpdateNote = async (id: number, title: string, body: string) => {
+    const noteFiles = await DNotesApi.getNoteFiles(id);
+    console.log(noteFiles);
     setNoteUpdateData({ data: { id, title, body } });
     setView("update");
   };

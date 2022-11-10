@@ -1,5 +1,5 @@
 export const contractSymbol = "MATIC";
-export const contractAddress: string = "0x680C268722C0823854CD46439bC79a4576FD3942";
+export const contractAddress: string = "0x0Ca00790Ad04DB328E921f4Fb7B75838E205358e";
 export const contractAbi = [
   {
     anonymous: false,

@@ -2,19 +2,24 @@
   "manifestVersion": "3.2",
   "admin": {
     "address": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-    "txHash": "0xae234b7e0baf1b6bc968fd40a71923f921a43fe2993a4ca241c3a78f531b35e3"
+    "txHash": "0x57c322faca26e6cfec154fe636853cfcd77685f88e4fc7678a7bde7848cd1e51"
   },
   "proxies": [
     {
+      "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      "txHash": "0x800cebfd3e115137ac25c5aca4548a71d5f29b4b74795c7b755f928aa7b1d6bf",
+      "kind": "transparent"
+    },
+    {
       "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-      "txHash": "0x07077e67192e59ef1dacd356bae915e323d23149d7425807e9a3b7dc1a803b60",
+      "txHash": "0xb8ad240435a50352a46a009bb03c1ea6b527a4cf75bb04e68e458622a768d66d",
       "kind": "transparent"
     }
   ],
   "impls": {
-    "24ad7cf4dd34ae7c3562ae6dbc0a30a6956be348fce36d512656fce9b1af01b9": {
+    "c59c6d05458a11c59fce819433cb6ed4d9c266748ef4d82bef55bf67567b0173": {
       "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-      "txHash": "0x4b2b72fd69804d65b3f767ecbd016d57d40c5039c666dd0c1e5253dc6f9978ae",
+      "txHash": "0x09860582558ac7ec0aa885509ee1c8e1975e1a7197c7c0ffc33af58a1b0de16b",
       "layout": {
         "solcVersion": "0.8.17",
         "storage": [
@@ -24,7 +29,7 @@
             "slot": "0",
             "type": "t_uint8",
             "contract": "Initializable",
-            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:62",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:62",
             "retypedFrom": "bool"
           },
           {
@@ -33,31 +38,31 @@
             "slot": "0",
             "type": "t_bool",
             "contract": "Initializable",
-            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:67"
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\utils\\Initializable.sol:67"
           },
           {
             "label": "users",
             "offset": 0,
             "slot": "1",
-            "type": "t_mapping(t_address,t_struct(User)436_storage)",
+            "type": "t_mapping(t_address,t_struct(User)439_storage)",
             "contract": "DNotes",
-            "src": "contracts/DNotes.sol:32"
+            "src": "contracts\\DNotes.sol:33"
           },
           {
             "label": "notes",
             "offset": 0,
             "slot": "2",
-            "type": "t_mapping(t_address,t_array(t_struct(Note)410_storage)dyn_storage)",
+            "type": "t_mapping(t_address,t_array(t_struct(Note)411_storage)dyn_storage)",
             "contract": "DNotes",
-            "src": "contracts/DNotes.sol:33"
+            "src": "contracts\\DNotes.sol:34"
           },
           {
             "label": "noteFiles",
             "offset": 0,
             "slot": "3",
-            "type": "t_mapping(t_uint256,t_array(t_struct(File)425_storage)dyn_storage)",
+            "type": "t_mapping(t_uint256,t_array(t_struct(File)426_storage)dyn_storage)",
             "contract": "DNotes",
-            "src": "contracts/DNotes.sol:34"
+            "src": "contracts\\DNotes.sol:35"
           },
           {
             "label": "initialized",
@@ -65,7 +70,7 @@
             "slot": "4",
             "type": "t_bool",
             "contract": "DNotes",
-            "src": "contracts/DNotes.sol:36"
+            "src": "contracts\\DNotes.sol:37"
           },
           {
             "label": "lastUserId",
@@ -73,7 +78,7 @@
             "slot": "5",
             "type": "t_uint256",
             "contract": "DNotes",
-            "src": "contracts/DNotes.sol:37"
+            "src": "contracts\\DNotes.sol:38"
           },
           {
             "label": "lastNoteId",
@@ -81,7 +86,7 @@
             "slot": "6",
             "type": "t_uint256",
             "contract": "DNotes",
-            "src": "contracts/DNotes.sol:38"
+            "src": "contracts\\DNotes.sol:39"
           },
           {
             "label": "lastFileId",
@@ -89,7 +94,15 @@
             "slot": "7",
             "type": "t_uint256",
             "contract": "DNotes",
-            "src": "contracts/DNotes.sol:39"
+            "src": "contracts\\DNotes.sol:40"
+          },
+          {
+            "label": "owner",
+            "offset": 0,
+            "slot": "8",
+            "type": "t_address",
+            "contract": "DNotes",
+            "src": "contracts\\DNotes.sol:41"
           }
         ],
         "types": {
@@ -97,11 +110,11 @@
             "label": "address",
             "numberOfBytes": "20"
           },
-          "t_array(t_struct(File)425_storage)dyn_storage": {
+          "t_array(t_struct(File)426_storage)dyn_storage": {
             "label": "struct DNotes.File[]",
             "numberOfBytes": "32"
           },
-          "t_array(t_struct(Note)410_storage)dyn_storage": {
+          "t_array(t_struct(Note)411_storage)dyn_storage": {
             "label": "struct DNotes.Note[]",
             "numberOfBytes": "32"
           },
@@ -109,15 +122,15 @@
             "label": "bool",
             "numberOfBytes": "1"
           },
-          "t_mapping(t_address,t_array(t_struct(Note)410_storage)dyn_storage)": {
+          "t_mapping(t_address,t_array(t_struct(Note)411_storage)dyn_storage)": {
             "label": "mapping(address => struct DNotes.Note[])",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_address,t_struct(User)436_storage)": {
+          "t_mapping(t_address,t_struct(User)439_storage)": {
             "label": "mapping(address => struct DNotes.User)",
             "numberOfBytes": "32"
           },
-          "t_mapping(t_uint256,t_array(t_struct(File)425_storage)dyn_storage)": {
+          "t_mapping(t_uint256,t_array(t_struct(File)426_storage)dyn_storage)": {
             "label": "mapping(uint256 => struct DNotes.File[])",
             "numberOfBytes": "32"
           },
@@ -125,7 +138,7 @@
             "label": "string",
             "numberOfBytes": "32"
           },
-          "t_struct(File)425_storage": {
+          "t_struct(File)426_storage": {
             "label": "struct DNotes.File",
             "members": [
               {
@@ -141,7 +154,7 @@
                 "slot": "1"
               },
               {
-                "label": "hash",
+                "label": "ipfsHash",
                 "type": "t_string_storage",
                 "offset": 0,
                 "slot": "2"
@@ -173,7 +186,7 @@
             ],
             "numberOfBytes": "224"
           },
-          "t_struct(Note)410_storage": {
+          "t_struct(Note)411_storage": {
             "label": "struct DNotes.Note",
             "members": [
               {
@@ -209,7 +222,7 @@
             ],
             "numberOfBytes": "160"
           },
-          "t_struct(User)436_storage": {
+          "t_struct(User)439_storage": {
             "label": "struct DNotes.User",
             "members": [
               {
@@ -231,19 +244,25 @@
                 "slot": "2"
               },
               {
+                "label": "role",
+                "type": "t_string_storage",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
                 "label": "status",
                 "type": "t_bool",
-                "offset": 20,
-                "slot": "2"
+                "offset": 0,
+                "slot": "4"
               },
               {
                 "label": "timestamp",
                 "type": "t_uint256",
                 "offset": 0,
-                "slot": "3"
+                "slot": "5"
               }
             ],
-            "numberOfBytes": "128"
+            "numberOfBytes": "192"
           },
           "t_uint256": {
             "label": "uint256",
