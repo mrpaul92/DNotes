@@ -47,7 +47,7 @@ const Block = () => {
         <Box sx={{ m: 1 }} />
         <Alert style={{ display: "flex", justifyContent: "center" }} variant="standard" color="info">
           DNotes is a decentralised platform to store your personal notes into blockchain. Install the The Metamask
-          Google Chrome extension and create/import your ethereum wallet to get started.
+          Google Chrome extension and create/import your MATIC(polygon) wallet to get started.
         </Alert>
         <div style={{ margin: "20px auto", textAlign: "center" }}>
           <Button variant="outlined" startIcon={<Fingerprint />} onClick={connectHandler}>
