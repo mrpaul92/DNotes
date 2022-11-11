@@ -1,3 +1,6 @@
+import envData from "../.env.json";
+console.log(envData);
+
 export const contractSymbol = "MATIC";
 export const contractAddress: string = "0x9a2787ab5a4Fed61033cF51F46C153F8E054cA3B";
 export const contractAbi = [
@@ -498,6 +501,6 @@ export const contractAbi = [
     type: "function",
   },
 ];
-export const infuraProjectId = "2HLPj3Q1OjUmorQimK8e6bcYEAZ";
-export const infuraApiKey = "7d69abb8f0d3e1bd8625c70a5a224755";
+export const infuraProjectId = envData.infuraProjectId;
+export const infuraApiKey = envData.infuraApiKey;
 export const infuraBaseUrl = "https://ipfs.io/ipfs/";
