@@ -8,4 +8,4 @@ client/node_modules
 client/build
 client/.env
 client/public/env.js
-client/constants
+client/constants/index.js
