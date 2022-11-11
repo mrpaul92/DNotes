@@ -20,12 +20,11 @@ import { Add, EventNote, Delete as DeleteIcon, StickyNote2 } from "@mui/icons-ma
 import { ethers, utils } from "ethers";
 import { DNotesApi } from "../api";
 import { userActions } from "../store/slices/userSlice";
-import { contractSymbol, infuraApiKey, infuraProjectId } from "../constants";
+import { contractSymbol, infuraApiKey, infuraBaseUrl, infuraProjectId } from "../constants";
 
 import { Buffer } from "buffer";
-
 import { create as ipfsClient } from "ipfs-http-client";
-const infuraAuth = "basic " + Buffer.from(infuraProjectId + ":" + infuraApiKey).toString("base64");
+const infuraAuth = "Basic " + Buffer.from(infuraProjectId + ":" + infuraApiKey).toString("base64");
 const ipfs = ipfsClient({
   host: "ipfs.infura.io",
   port: 5001,
@@ -49,7 +48,7 @@ const Home = () => {
   const [useEffectTrigger, setUseEffectTrigger] = useState(false);
   const [formError, setFormError] = useState(false);
 
-  const [noteUpdateData, setNoteUpdateData] = useState({ data: { id: 0, title: "", body: "" } });
+  const [noteUpdateData, setNoteUpdateData] = useState({ data: { id: 0, title: "", body: "", files: [] } });
   const [disabled, setDisabled] = useState(false);
 
   const [files, setFiles] = useState<{ name: string; size: number; type: string; buffer: Uint8Array }[]>([]);
@@ -75,29 +74,30 @@ const Home = () => {
       });
   }, [useEffectTrigger]);
 
+  const Notify = (msg: string) => {
+    alert(msg);
+  };
+
   const handleAddNote = async () => {
     setDisabled(true);
     if (titleRef.current?.value && bodyRef.current?.value) {
-      // get the last last file id from contract
-      const lastFileId = Number(await DNotesApi.getLastFileId());
-
       // upload files into ipfs
       const uploadedFiles = [];
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         const { path, size } = await ipfs.add(file.buffer);
         uploadedFiles.push({
-          id: lastFileId + i + 1,
           name: file.name,
           ipfsHash: path,
           size,
           mime: file.type,
-          status: true,
-          timestamp: Date.now(),
         });
       }
 
       await DNotesApi.addNote(titleRef.current?.value, bodyRef.current?.value, uploadedFiles);
+
+      // reset the files
+      setFiles([]);
 
       titleRef.current.value = "";
       bodyRef.current.value = "";
@@ -113,7 +113,29 @@ const Home = () => {
   const handleUpdateNote = async () => {
     setDisabled(true);
     if (updateTitleRef.current?.value && updateBodyRef.current?.value) {
-      await DNotesApi.updateNote(noteUpdateData.data.id, updateTitleRef.current?.value, updateBodyRef.current?.value);
+      if (
+        noteUpdateData.data.title !== updateTitleRef.current?.value ||
+        noteUpdateData.data.body !== updateBodyRef.current?.value
+      )
+        await DNotesApi.updateNote(noteUpdateData.data.id, updateTitleRef.current?.value, updateBodyRef.current?.value);
+
+      // upload files into ipfs if any aded
+      const uploadedFiles = [];
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const { path, size } = await ipfs.add(file.buffer);
+        uploadedFiles.push({
+          name: file.name,
+          ipfsHash: path,
+          size,
+          mime: file.type,
+        });
+      }
+      if (uploadedFiles.length > 0) await DNotesApi.addNoteFiles(noteUpdateData.data.id, uploadedFiles);
+
+      // reset the files
+      setFiles([]);
+
       updateTitleRef.current.value = "";
       updateBodyRef.current.value = "";
       setView("list");
@@ -135,9 +157,20 @@ const Home = () => {
   };
 
   const handleOpenUpdateNote = async (id: number, title: string, body: string) => {
-    const noteFiles = await DNotesApi.getNoteFiles(id);
-    console.log(noteFiles);
-    setNoteUpdateData({ data: { id, title, body } });
+    let noteFiles = await DNotesApi.getNoteFiles(id);
+    noteFiles = noteFiles.map((file) => {
+      return {
+        id: Number(file.id),
+        name: file.name,
+        ipfsHash: file.ipfsHash,
+        mime: file.mime,
+        size: Number(file.size),
+        status: file.status,
+        timestamp: Number(file.timestamp),
+      };
+    });
+    noteFiles = noteFiles.filter((item) => item.status === true);
+    setNoteUpdateData({ data: { id, title, body, files: noteFiles as any } });
     setView("update");
   };
 
@@ -158,6 +191,12 @@ const Home = () => {
   const captureFile = (e: any) => {
     e.preventDefault();
     const tempFiles = e.target.files;
+
+    if (tempFiles.length > 3) {
+      e.target.value = null;
+      Notify("Maximum 3 files allowed!");
+      return;
+    }
     const preparedFiles: { name: string; size: number; type: string; buffer: Uint8Array }[] = [];
     for (let i = 0; i < tempFiles.length; i++) {
       const reader = new FileReader();
@@ -175,6 +214,37 @@ const Home = () => {
     }, 1000);
   };
 
+  const captureFileForUpdate = (e: any) => {
+    e.preventDefault();
+    const existingFilesLength = noteUpdateData.data.files.length;
+    const tempFiles = e.target.files;
+
+    if (tempFiles.length + existingFilesLength > 3) {
+      e.target.value = null;
+      Notify("Maximum 3 files allowed!");
+      return;
+    }
+    const preparedFiles: { name: string; size: number; type: string; buffer: Uint8Array }[] = [];
+    for (let i = 0; i < tempFiles.length; i++) {
+      const reader = new FileReader();
+      const file = tempFiles[i];
+      reader.readAsArrayBuffer(file);
+      reader.onloadend = () => {
+        const bufferData = Buffer.from(reader.result as any);
+        preparedFiles.push({ name: file.name, size: file.size, type: file.type, buffer: bufferData });
+      };
+    }
+    setTimeout(async () => {
+      if (preparedFiles.length > 0) {
+        setFiles(preparedFiles);
+      }
+    }, 1000);
+  };
+
+  const handleDeleteNoteFile = async (noteId: number, fileId: number) => {
+    await DNotesApi.deleteNoteFile(noteId, fileId);
+    handleOpenUpdateNote(noteUpdateData.data.id, noteUpdateData.data.title, noteUpdateData.data.body);
+  };
   return (
     <>
       <AppBar position="static">
@@ -322,6 +392,39 @@ const Home = () => {
                   style={{ width: "100%" }}
                   defaultValue={noteUpdateData.data.body}
                 />
+              </Box>
+              <Box sx={{ m: 1 }}>
+                <List dense={true}>
+                  {noteUpdateData.data.files.map((file: any) => (
+                    <ListItem
+                      key={file.id}
+                      secondaryAction={
+                        <IconButton
+                          color="warning"
+                          edge="end"
+                          aria-label="delete"
+                          onClick={() => {
+                            handleDeleteNoteFile(noteUpdateData.data.id, file.id);
+                          }}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      }
+                    >
+                      <ListItemAvatar
+                        onClick={() => {
+                          window.open(infuraBaseUrl + file.ipfsHash, "_blank");
+                        }}
+                      >
+                        <Avatar alt={file.name} src={infuraBaseUrl + file.ipfsHash} />
+                      </ListItemAvatar>
+                      <ListItemText primary={file.name} />
+                    </ListItem>
+                  ))}
+                </List>
+              </Box>
+              <Box sx={{ m: 2 }}>
+                <input type="file" accept="image/*" multiple onChange={captureFileForUpdate} />
               </Box>
               <Box sx={{ m: 3 }}>
                 <Button disabled={disabled} variant="outlined" onClick={handleUpdateNote}>

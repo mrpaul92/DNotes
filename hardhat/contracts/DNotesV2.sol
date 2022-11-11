@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.17;
-pragma abicoder v2;
 import "hardhat/console.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
@@ -30,6 +29,13 @@ contract DNotesV2 is Initializable {
         uint timestamp;
     }
 
+    struct FileInput {
+        string name;
+        string ipfsHash;
+        uint size;
+        string mime;
+    }
+
     mapping(address => User) private users;
     mapping(address => Note[]) private notes;
     mapping(uint => File[]) private noteFiles;
@@ -55,7 +61,7 @@ contract DNotesV2 is Initializable {
     modifier createNoteValidator(
         string calldata _title,
         string calldata _body,
-        File[] calldata _files
+        FileInput[] calldata _files
     ) {
         require(bytes(_title).length > 0);
         require(bytes(_body).length > 0);
@@ -83,7 +89,7 @@ contract DNotesV2 is Initializable {
         _;
     }
 
-    modifier addNoteFilesValidator(File[] calldata _files) {
+    modifier addNoteFilesValidator(FileInput[] calldata _files) {
         require(msg.sender != address(0));
 
         // files validation
@@ -130,7 +136,7 @@ contract DNotesV2 is Initializable {
     function addNote(
         string calldata _title,
         string calldata _body,
-        File[] calldata _files
+        FileInput[] calldata _files
     ) external createNoteValidator(_title, _body, _files) returns (bool) {
         Note storage newNote = notes[msg.sender].push();
         lastNoteId++;
@@ -207,7 +213,7 @@ contract DNotesV2 is Initializable {
         return true;
     }
 
-    function addNoteFiles(uint _noteId, File[] calldata _files)
+    function addNoteFiles(uint _noteId, FileInput[] calldata _files)
         external
         addNoteFilesValidator(_files)
         returns (bool)

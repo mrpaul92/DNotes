@@ -1,5 +1,7 @@
+import dotenv from "dotenv";
+dotenv.config();
 export const contractSymbol = "MATIC";
-export const contractAddress: string = "0x0Ca00790Ad04DB328E921f4Fb7B75838E205358e";
+export const contractAddress: string = "0x9a2787ab5a4Fed61033cF51F46C153F8E054cA3B";
 export const contractAbi = [
   {
     anonymous: false,
@@ -124,11 +126,6 @@ export const contractAbi = [
       {
         components: [
           {
-            internalType: "uint256",
-            name: "id",
-            type: "uint256",
-          },
-          {
             internalType: "string",
             name: "name",
             type: "string",
@@ -148,18 +145,8 @@ export const contractAbi = [
             name: "mime",
             type: "string",
           },
-          {
-            internalType: "bool",
-            name: "status",
-            type: "bool",
-          },
-          {
-            internalType: "uint256",
-            name: "timestamp",
-            type: "uint256",
-          },
         ],
-        internalType: "struct DNotes.File[]",
+        internalType: "struct DNotes.FileInput[]",
         name: "_files",
         type: "tuple[]",
       },
@@ -185,11 +172,6 @@ export const contractAbi = [
       {
         components: [
           {
-            internalType: "uint256",
-            name: "id",
-            type: "uint256",
-          },
-          {
             internalType: "string",
             name: "name",
             type: "string",
@@ -209,18 +191,8 @@ export const contractAbi = [
             name: "mime",
             type: "string",
           },
-          {
-            internalType: "bool",
-            name: "status",
-            type: "bool",
-          },
-          {
-            internalType: "uint256",
-            name: "timestamp",
-            type: "uint256",
-          },
         ],
-        internalType: "struct DNotes.File[]",
+        internalType: "struct DNotes.FileInput[]",
         name: "_files",
         type: "tuple[]",
       },
@@ -528,5 +500,6 @@ export const contractAbi = [
     type: "function",
   },
 ];
-export const infuraProjectId = "2HLPj3Q1OjUmorQimK8e6bcYEAZ";
-export const infuraApiKey = "7d69abb8f0d3e1bd8625c70a5a224755";
+export const infuraProjectId = process.env.infuraProjectId;
+export const infuraApiKey = process.env.infuraApiKey;
+export const infuraBaseUrl = "https://ipfs.io/ipfs/";

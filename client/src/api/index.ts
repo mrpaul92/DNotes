@@ -82,22 +82,14 @@ export const DNotesApi = {
     await txn.wait();
     return txn;
   },
-  getLastNoteId: async () => {
+  deleteNoteFile: async (noteId: number, fileId: number) => {
     const ethereum = getEthereumObject();
     const provider = new ethers.providers.Web3Provider(ethereum);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(contractAddress, contractAbi, signer);
 
-    let data = await contract.lastNoteId();
-    return data;
-  },
-  getLastFileId: async () => {
-    const ethereum = getEthereumObject();
-    const provider = new ethers.providers.Web3Provider(ethereum);
-    const signer = provider.getSigner();
-    const contract = new ethers.Contract(contractAddress, contractAbi, signer);
-
-    let data = await contract.lastFileId();
-    return data;
+    let txn = await contract.deleteNoteFile(noteId, fileId);
+    await txn.wait();
+    return txn;
   },
 };

@@ -6,3 +6,4 @@ hardhat/typechain-types
 hardhat/.env
 client/node_modules
 client/build
+client/.env
