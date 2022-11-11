@@ -1,4 +1,3 @@
-import env from "react-dotenv";
 export const contractSymbol = "MATIC";
 export const contractAddress: string = "0x9a2787ab5a4Fed61033cF51F46C153F8E054cA3B";
 export const contractAbi = [
@@ -499,6 +498,6 @@ export const contractAbi = [
     type: "function",
   },
 ];
-export const infuraProjectId = env.infuraProjectId;
-export const infuraApiKey = env.infuraApiKey;
+export const infuraProjectId = "";
+export const infuraApiKey = "";
 export const infuraBaseUrl = "https://ipfs.io/ipfs/";
