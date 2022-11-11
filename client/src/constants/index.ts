@@ -1,5 +1,4 @@
 import envData from "../.env.json";
-console.log(envData);
 
 export const contractSymbol = "MATIC";
 export const contractAddress: string = "0x9a2787ab5a4Fed61033cF51F46C153F8E054cA3B";
